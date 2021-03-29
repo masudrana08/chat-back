@@ -1,12 +1,14 @@
 
-
+const cors = require('cors')
 const app = require('express')();
+const port = process.env.PORT || 4000
+app.use(cors())
 const httpServer = require('http').createServer(app);
 const {addUser, removeUser} = require('./handle/users')
 
 const io = require("socket.io")(httpServer, {
     cors: {
-      origin: "http://localhost:3000",
+      origin: "https://chat-client1.netlify.app/",
       methods: ["GET", "POST"]
     }
   });
@@ -36,10 +38,8 @@ io.on('connection', (socket) => {
     
   })
   
-
-    
 });
 
-httpServer.listen(4000, () => {
-  console.log('listening on *:3000');
+httpServer.listen(port, () => {
+  console.log('listening on '+port);
 });
